@@ -40,7 +40,7 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
   const getLocations = async (value: string) => {
     try {
       let response = await fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${value}&limit=5&appid=${API_key}`
+        `https://api.openweathermap.org/geo/1.0/direct?q=${value}&limit=5&appid=${API_key}`
       )
       if (!response.ok) {
         throw new Error('failed to fetch')
