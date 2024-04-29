@@ -99,8 +99,11 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
                 key={`${option.name}_${index}`}
                 className="text-left px-2 py-1 hover:bg-teal-100 w-full"
               >
-                <button onClick={() => handleClickLocation(option)}>
-                  {option.name}
+                <button
+                  onClick={() => handleClickLocation(option)}
+                  aria-label={`Choose ${option.name}, ${option.country}`}
+                >
+                  {`${option.name}, ${option.country}`}
                 </button>
               </li>
             ))}
@@ -109,6 +112,7 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
         <button
           className="font-bold rounded-r-md border-2 border-white p-2 hover:bg-teal-200"
           onClick={getForecast}
+          aria-label={`Get weather forecast}`}
         >
           search
         </button>

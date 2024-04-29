@@ -48,7 +48,11 @@ const Forecast: React.FC<ForecastProps> = ({
           </div>
         ))}
       </section>
-      <button onClick={() => setForecast(null)}>
+      <button
+        onClick={() => setForecast(null)}
+        aria-label={`Choose new location`}
+        title={'Choose new location'}
+      >
         <svg
           className="my-3 h-7 w-7 p-0"
           xmlns="http://www.w3.org/2000/svg"
