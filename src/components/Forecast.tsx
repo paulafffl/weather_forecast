@@ -23,7 +23,7 @@ const Forecast: React.FC<ForecastProps> = ({ forecast }: ForecastProps) => {
           Min ${Weather(Math.floor(today.main.temp_min))}`}
       </h2>
       <h2 className="text-2xl font-black mb-1">
-        <span className="font-thin">at </span>
+        <span className="font-thin text-xl">in </span>
         {forecast.name}
         <span className="font-thin"> {forecast.country}</span>
       </h2>

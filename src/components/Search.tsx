@@ -72,11 +72,11 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
         Weather <span className="font-black">Forecast</span>
       </h1>
 
-      <p className="text-sm font-light mb-5">
+      <p className="font-light my-4">
         Enter a location and then select a option from dropdown list
       </p>
 
-      <div className="flex relative">
+      <div className="flex relative justify-center">
         <label htmlFor="location" className={'screen-readers-only'}>
           Location
         </label>
