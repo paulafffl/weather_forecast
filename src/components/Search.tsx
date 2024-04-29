@@ -1,7 +1,11 @@
 import { ChangeEvent, useState } from 'react'
-import { locationType } from '../types'
+import { forecastType, locationType } from '../types'
 
-const Search = (): JSX.Element => {
+type SearchProps = {
+  setForecast: React.Dispatch<React.SetStateAction<forecastType | null>>
+}
+
+const Search: React.FC<SearchProps> = ({ setForecast }) => {
   const [locationInput, setLocationInput] = useState('')
   const [locationOptions, setLocationOptions] = useState([])
   const [locationSelected, setLocationSelected] = useState<locationType | null>(
@@ -15,14 +19,18 @@ const Search = (): JSX.Element => {
     }
     try {
       let response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${locationSelected?.lat}&lon=${locationSelected?.lon}&unites=metric&appid=${API_key}`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${locationSelected?.lat}&lon=${locationSelected?.lon}&units=metric&appid=${API_key}`
       )
       if (!response.ok) {
         throw new Error('failed to fetch')
       } else {
         let data = await response.json()
-        setLocationOptions(data)
-        alert('retrieved data')
+        const forecastData = {
+          ...data.city,
+          list: data.list.slice(0, 16),
+        }
+
+        setForecast(forecastData)
       }
     } catch (error) {
       console.error('An error ocurred:', error)
