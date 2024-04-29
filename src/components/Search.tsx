@@ -9,6 +9,26 @@ const Search = (): JSX.Element => {
   )
   const API_key = process.env.REACT_APP_API_KEY
 
+  const getForecast = async () => {
+    if (!locationSelected) {
+      return alert('No location selected')
+    }
+    try {
+      let response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${locationSelected?.lat}&lon=${locationSelected?.lon}&unites=metric&appid=${API_key}`
+      )
+      if (!response.ok) {
+        throw new Error('failed to fetch')
+      } else {
+        let data = await response.json()
+        setLocationOptions(data)
+        alert('retrieved data')
+      }
+    } catch (error) {
+      console.error('An error ocurred:', error)
+    }
+  }
+
   const getLocations = async (value: string) => {
     try {
       let response = await fetch(
@@ -75,7 +95,7 @@ const Search = (): JSX.Element => {
         )}
         <button
           className="font-bold rounded-r-md border-2 border-white p-2 hover:bg-teal-200"
-          onClick={() => alert('search')}
+          onClick={getForecast}
         >
           search
         </button>
