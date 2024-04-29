@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react'
 import { forecastType, locationType } from '../types'
+import toast, { Toaster } from 'react-hot-toast'
 
 type SearchProps = {
   setForecast: React.Dispatch<React.SetStateAction<forecastType | null>>
@@ -14,8 +15,13 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
   const API_key = process.env.REACT_APP_API_KEY
 
   const getForecast = async () => {
+    if (!locationInput) {
+      return toast('Enter a location first', { position: 'bottom-center' })
+    }
     if (!locationSelected) {
-      return alert('No location selected')
+      return toast('Select a city from the dropdown list', {
+        position: 'bottom-center',
+      })
     }
     try {
       let response = await fetch(
@@ -55,7 +61,6 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim()
-    if (value === '') return
     setLocationInput(value)
     getLocations(value)
   }
@@ -73,22 +78,22 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
       </h1>
 
       <p className="font-light my-4">
-        Enter a location and then select a option from dropdown list
+        Enter a location and then select an option from dropdown list
       </p>
 
-      <div className="flex relative justify-center">
+      <div className="flex relative mb-3">
         <label htmlFor="location" className={'screen-readers-only'}>
           Location
         </label>
         <input
           type="text"
           value={locationInput}
-          className="border-2 border-white rounded-l-md p-2 w-3/4"
+          className="flex-grow border-2 border-white rounded-l-md p-2 w-3/4"
           onChange={(e) => handleChangeInput(e)}
           name="location"
         />
-        {locationOptions.length > 0 && (
-          <ul className="absolute top-11 bg-white ml-1 rounded-b-md">
+        {locationInput !== '' && locationOptions.length > 0 && (
+          <ul className="absolute left-0 top-11 bg-white ml-1 rounded-b-md">
             {locationOptions.map((option: locationType, index: number) => (
               <li
                 key={`${option.name}_${index}`}
@@ -108,6 +113,7 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
           search
         </button>
       </div>
+      <Toaster />
     </>
   )
 }
