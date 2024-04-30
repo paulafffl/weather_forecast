@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { forecastType, locationType } from '../types'
 import toast from 'react-hot-toast'
 
@@ -12,7 +12,15 @@ const useForecast = () => {
 
   const API_key = process.env.REACT_APP_API_KEY
 
-  const getForecast = async () => {
+  useEffect(() => {
+    const storedLocation = localStorage.getItem('location')
+    if (storedLocation) {
+      const option = JSON.parse(storedLocation)
+      getForecast(option)
+    }
+  }, [])
+
+  const getForecast = async (locationSelected: locationType) => {
     try {
       let response = await fetch(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${locationSelected?.lat}&lon=${locationSelected?.lon}&units=metric&appid=${API_key}`
@@ -50,6 +58,7 @@ const useForecast = () => {
   }
 
   const handleClickLocation = (option: locationType) => {
+    localStorage.setItem('location', JSON.stringify(option))
     setLocationInput(`${option.name}, ${option.country}`)
     setLocationSelected(option)
     setLocationOptions([])
@@ -64,14 +73,15 @@ const useForecast = () => {
         position: 'bottom-center',
       })
     }
-    getForecast()
+    getForecast(locationSelected)
   }
 
   return {
-    handleChangeInput,
     locationInput,
-    handleClickLocation,
     locationOptions,
+    locationSelected,
+    handleChangeInput,
+    handleClickLocation,
     handleClickSearch,
     forecast,
     setForecast,
