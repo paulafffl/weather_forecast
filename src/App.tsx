@@ -32,7 +32,7 @@ const App = () => {
           />
         </section>
       )}
-      {!locationStored && (
+      {!locationStored && !forecast && (
         <section className="main-section">
           <Search
             handleChangeInput={handleChangeInput}

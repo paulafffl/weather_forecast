@@ -57,7 +57,10 @@ const Forecast: React.FC<ForecastProps> = ({
         ))}
       </section>
       <button
-        onClick={() => setForecast(null)}
+        onClick={() => {
+          localStorage.removeItem('location')
+          setForecast(null)
+        }}
         aria-label={`Choose new location`}
         title={'Choose new location'}
       >

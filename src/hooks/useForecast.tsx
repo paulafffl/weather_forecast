@@ -23,6 +23,7 @@ const useForecast = () => {
 
   const getForecast = async (locationSelected: locationType) => {
     setIsLoading(true)
+    localStorage.setItem('location', JSON.stringify(locationSelected))
     try {
       let response = await fetch(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${locationSelected?.lat}&lon=${locationSelected?.lon}&units=metric&appid=${API_key}`
@@ -38,6 +39,7 @@ const useForecast = () => {
     } catch (error) {
       console.error('An error ocurred:', error)
     } finally {
+      setLocationInput('')
       setIsLoading(false)
     }
   }
@@ -62,7 +64,6 @@ const useForecast = () => {
   }
 
   const handleClickLocation = (option: locationType) => {
-    localStorage.setItem('location', JSON.stringify(option))
     setLocationInput(`${option.name}, ${option.country}`)
     setLocationSelected(option)
     setLocationOptions([])
