@@ -36,7 +36,7 @@ const Forecast: React.FC<ForecastProps> = ({
         <span className="font-thin"> {forecast.country}</span>
       </h2>
       <p className="mb-2">{`${today.weather[0].main} (${today.weather[0].description})`}</p>
-      <section className="flex flex-row overflow-x-auto my-5 w-4/5">
+      <section className="flex flex-row overflow-x-auto my-5 w-4/5 pb-4">
         {forecast?.list.map((item, index) => (
           <div
             key={`${item.dt}_${index}`}

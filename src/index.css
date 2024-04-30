@@ -53,3 +53,11 @@ body {
     transform: rotate(360deg);
   }
 }
+
+::-webkit-scrollbar {
+  @apply w-1.5 h-1.5 bg-white rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-orange-400;
+}
