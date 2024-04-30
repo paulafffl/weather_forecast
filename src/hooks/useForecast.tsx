@@ -6,6 +6,7 @@ const useForecast = () => {
   const [locationInput, setLocationInput] = useState('')
   const [forecast, setForecast] = useState<forecastType | null>(null)
   const [locationOptions, setLocationOptions] = useState<[]>([])
+  const [isLoading, setIsLoading] = useState(false)
   const [locationSelected, setLocationSelected] = useState<locationType | null>(
     null
   )
@@ -21,6 +22,7 @@ const useForecast = () => {
   }, [])
 
   const getForecast = async (locationSelected: locationType) => {
+    setIsLoading(true)
     try {
       let response = await fetch(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${locationSelected?.lat}&lon=${locationSelected?.lon}&units=metric&appid=${API_key}`
@@ -35,6 +37,8 @@ const useForecast = () => {
       setForecast(forecastData)
     } catch (error) {
       console.error('An error ocurred:', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -85,6 +89,7 @@ const useForecast = () => {
     handleClickSearch,
     forecast,
     setForecast,
+    isLoading,
   }
 }
 
