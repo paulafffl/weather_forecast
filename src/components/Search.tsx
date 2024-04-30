@@ -1,74 +1,21 @@
-import { ChangeEvent, useState } from 'react'
-import { forecastType, locationType } from '../types'
-import toast, { Toaster } from 'react-hot-toast'
+import { locationType } from '../types'
+import { Toaster } from 'react-hot-toast'
 
 type SearchProps = {
-  setForecast: React.Dispatch<React.SetStateAction<forecastType | null>>
+  handleChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void
+  locationInput: string
+  handleClickLocation: (option: locationType) => void
+  locationOptions: []
+  handleClickSearch: () => string | undefined
 }
 
-const Search: React.FC<SearchProps> = ({ setForecast }) => {
-  const [locationInput, setLocationInput] = useState('')
-  const [locationOptions, setLocationOptions] = useState([])
-  const [locationSelected, setLocationSelected] = useState<locationType | null>(
-    null
-  )
-  const API_key = process.env.REACT_APP_API_KEY
-
-  const getForecast = async () => {
-    try {
-      let response = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${locationSelected?.lat}&lon=${locationSelected?.lon}&units=metric&appid=${API_key}`
-      )
-      if (!response.ok) throw new Error('failed to fetch')
-      let data = await response.json()
-      const forecastData = {
-        ...data.city,
-        // hourly forecast for only the next 24h
-        list: data.list.slice(0, 16),
-      }
-      setForecast(forecastData)
-    } catch (error) {
-      console.error('An error ocurred:', error)
-    }
-  }
-
-  const getLocations = async (value: string) => {
-    try {
-      let response = await fetch(
-        `https://api.openweathermap.org/geo/1.0/direct?q=${value}&limit=5&appid=${API_key}`
-      )
-      if (!response.ok) throw new Error('failed to fetch')
-      let data = await response.json()
-      setLocationOptions(data)
-    } catch (error) {
-      console.error('An error ocurred:', error)
-    }
-  }
-
-  const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim()
-    setLocationInput(value)
-    getLocations(value)
-  }
-
-  const handleClickLocation = (option: locationType) => {
-    setLocationInput(option.name)
-    setLocationSelected(option)
-    setLocationOptions([])
-  }
-
-  const handleClickSearch = () => {
-    if (!locationInput) {
-      return toast('Enter a location first', { position: 'bottom-center' })
-    }
-    if (!locationSelected) {
-      return toast('Select a city from the dropdown list', {
-        position: 'bottom-center',
-      })
-    }
-    getForecast()
-  }
-
+const Search = ({
+  handleChangeInput,
+  locationInput,
+  handleClickLocation,
+  locationOptions,
+  handleClickSearch,
+}: SearchProps) => {
   return (
     <>
       <h1 className="font-thin text-4xl mb-5">
