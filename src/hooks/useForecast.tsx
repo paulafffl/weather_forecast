@@ -44,13 +44,13 @@ const useForecast = () => {
   }
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim()
+    const value = e.target.value
     setLocationInput(value)
-    getLocations(value)
+    if (value !== '') getLocations(value.trim())
   }
 
   const handleClickLocation = (option: locationType) => {
-    setLocationInput(option.name)
+    setLocationInput(`${option.name}, ${option.country}`)
     setLocationSelected(option)
     setLocationOptions([])
   }

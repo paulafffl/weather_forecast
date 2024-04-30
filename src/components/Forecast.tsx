@@ -22,6 +22,9 @@ const Forecast: React.FC<ForecastProps> = ({
       <h1 className="text-5xl font-extrabold pl-4 mb-2">
         {Weather(Math.round(today.main.temp))}
       </h1>
+      <h2 className="font-bold text-xl">
+        {`Feels like ${Weather(Math.round(today.main.feels_like))}`}
+      </h2>
       <h2 className="mb-4">
         {`Max ${Weather(Math.ceil(today.main.temp))} / 
           Min ${Weather(Math.floor(today.main.temp_min))}`}
@@ -34,7 +37,10 @@ const Forecast: React.FC<ForecastProps> = ({
       <p className="mb-2">{`${today.weather[0].main} (${today.weather[0].description})`}</p>
       <section className="flex flex-row overflow-x-auto my-5 w-4/5">
         {forecast?.list.map((item, index) => (
-          <div className="p-2 flex flex-col justify-between">
+          <div
+            key={`${item.dt}_${index}`}
+            className="p-2 flex flex-col justify-between"
+          >
             <p className="text-xs">
               {index === 0
                 ? 'Now'
