@@ -91,6 +91,7 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
           className="flex-grow border-2 border-white rounded-l-md p-2 w-3/4"
           onChange={(e) => handleChangeInput(e)}
           name="location"
+          id="location"
         />
         {locationInput !== '' && locationOptions.length > 0 && (
           <ul className="absolute left-0 top-11 bg-white ml-1 rounded-b-md">
