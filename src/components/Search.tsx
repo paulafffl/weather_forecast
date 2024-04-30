@@ -15,29 +15,18 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
   const API_key = process.env.REACT_APP_API_KEY
 
   const getForecast = async () => {
-    if (!locationInput) {
-      return toast('Enter a location first', { position: 'bottom-center' })
-    }
-    if (!locationSelected) {
-      return toast('Select a city from the dropdown list', {
-        position: 'bottom-center',
-      })
-    }
     try {
       let response = await fetch(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${locationSelected?.lat}&lon=${locationSelected?.lon}&units=metric&appid=${API_key}`
       )
-      if (!response.ok) {
-        throw new Error('failed to fetch')
-      } else {
-        let data = await response.json()
-        const forecastData = {
-          ...data.city,
-          list: data.list.slice(0, 16),
-        }
-
-        setForecast(forecastData)
+      if (!response.ok) throw new Error('failed to fetch')
+      let data = await response.json()
+      const forecastData = {
+        ...data.city,
+        // hourly forecast for only the next 24h
+        list: data.list.slice(0, 16),
       }
+      setForecast(forecastData)
     } catch (error) {
       console.error('An error ocurred:', error)
     }
@@ -48,12 +37,9 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
       let response = await fetch(
         `https://api.openweathermap.org/geo/1.0/direct?q=${value}&limit=5&appid=${API_key}`
       )
-      if (!response.ok) {
-        throw new Error('failed to fetch')
-      } else {
-        let data = await response.json()
-        setLocationOptions(data)
-      }
+      if (!response.ok) throw new Error('failed to fetch')
+      let data = await response.json()
+      setLocationOptions(data)
     } catch (error) {
       console.error('An error ocurred:', error)
     }
@@ -69,6 +55,18 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
     setLocationInput(option.name)
     setLocationSelected(option)
     setLocationOptions([])
+  }
+
+  const handleClickSearch = () => {
+    if (!locationInput) {
+      return toast('Enter a location first', { position: 'bottom-center' })
+    }
+    if (!locationSelected) {
+      return toast('Select a city from the dropdown list', {
+        position: 'bottom-center',
+      })
+    }
+    getForecast()
   }
 
   return (
@@ -112,7 +110,7 @@ const Search: React.FC<SearchProps> = ({ setForecast }) => {
         )}
         <button
           className="font-bold rounded-r-md border-2 border-white p-2 hover:bg-teal-200"
-          onClick={getForecast}
+          onClick={handleClickSearch}
           aria-label={`Get weather forecast}`}
         >
           search
