@@ -13,7 +13,7 @@ body {
 }
 
 .main-section {
-  @apply bg-slate-200 border-2 border-opacity-50 border-white bg-opacity-40 w-[80vw] px-6 py-16 h-auto flex flex-col items-center justify-center text-center rounded;
+  @apply bg-slate-200 border-2 border-opacity-50 border-white bg-opacity-40 max-w-[85vw] h-auto flex flex-col items-center justify-center text-center rounded;
 }
 
 .screen-readers-only {

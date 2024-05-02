@@ -18,14 +18,14 @@ const App = () => {
   const locationStored = localStorage.getItem('location')
 
   return (
-    <main className="flex justify-center items-center bg-gradient-to-br from-indigo-400 via-sky-200 to-teal-300 h-[100vh] w-full">
+    <main className="flex flex-col justify-center items-center bg-gradient-to-br from-indigo-400 via-sky-200 to-teal-300 min-h-[100vh] min-w-full">
       {isLoading && (
         <div className="loader-container h-[60vh]">
           <div className="loader"></div>
         </div>
       )}
       {!isLoading && forecast && (
-        <section className="main-section">
+        <section className="main-section px-1 py-6 min-h-[90vh]">
           <Forecast
             setForecast={setForecast}
             forecast={forecast as forecastType}
@@ -33,7 +33,7 @@ const App = () => {
         </section>
       )}
       {!locationStored && !forecast && (
-        <section className="main-section">
+        <section className="main-section px-6 py-20">
           <Search
             handleChangeInput={handleChangeInput}
             locationInput={locationInput}
