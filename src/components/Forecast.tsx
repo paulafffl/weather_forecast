@@ -36,23 +36,25 @@ const Forecast: React.FC<ForecastProps> = ({
         <span className="font-thin"> {forecast.country}</span>
       </h2>
       <p className="mb-2">{`${today.weather[0].main} (${today.weather[0].description})`}</p>
-      <section className="flex flex-row overflow-x-auto my-5 w-4/5 pb-4">
+      <section className="flex overflow-x-auto my-5 w-4/5 pb-5">
         {forecast?.list.map((item, index) => (
           <div
             key={`${item.dt}_${index}`}
-            className="p-2 flex flex-col justify-between"
+            className="flex flex-col flex-shrink-0 sm:flex-shrink w-[11vw] sm:w-[11vh]"
           >
-            <p className="text-xs">
-              {index === 0
-                ? 'Now'
-                : `${new Date(item.dt * 1000).getHours()}:00`}
+            <p className="text-sm pl-1">
+              {Weather(Math.round(item.main.temp))}
             </p>
             <Icon
               type="weather"
               alt={item.weather[0].description}
               id={item.weather[0].icon}
             />
-            <p className="text-sm">{Weather(Math.round(item.main.temp))}</p>
+            <p className="text-xs p-1">
+              {index === 0
+                ? 'Now'
+                : `${new Date(item.dt * 1000).getHours()}:00`}
+            </p>
           </div>
         ))}
       </section>
