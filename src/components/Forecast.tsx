@@ -1,6 +1,14 @@
+import {
+  getHumidityInfo,
+  getRainProbability,
+  getSunTime,
+  getVisibilityInfo,
+  getWindDirection,
+} from '../helpers'
 import { forecastType } from '../types'
 import Icon from './Icon'
 import Image from './Image'
+import Tile from './Tile'
 
 type ForecastProps = {
   setForecast: React.Dispatch<React.SetStateAction<forecastType | null>>
@@ -52,6 +60,34 @@ const Forecast: React.FC<ForecastProps> = ({
             </p>
           </div>
         ))}
+      </section>
+      <section className="flex w-[65vw] flex-wrap my-2 justify-between">
+        <Tile type="sunrise" info={getSunTime(forecast.sunrise)} />
+        <Tile type="sunset" info={getSunTime(forecast.sunset)} />
+        <Tile
+          type="wind"
+          info={`${Math.round(today.wind.speed)}\u00A0km/h`}
+          description={`Direction\u00A0${getWindDirection(
+            Math.round(today.wind.deg)
+          )}, \nSpeed ${today.wind.gust.toFixed(1)}\u00A0km/h`}
+        />
+        <Tile
+          type="rain"
+          info={`${Math.round(today.pop * 100)}%`}
+          description={`${getRainProbability(today.pop)}, \nclouds at ${
+            today.clouds.all
+          }%`}
+        />
+        <Tile
+          type="humidity"
+          info={`${today.main.humidity}%`}
+          description={getHumidityInfo(today.main.humidity)}
+        />
+        <Tile
+          type="visibility"
+          info={`${(today.visibility / 1000).toFixed()}km`}
+          description={getVisibilityInfo(today.visibility)}
+        />
       </section>
       <button
         onClick={() => {
