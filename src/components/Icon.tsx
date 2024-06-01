@@ -1,19 +1,30 @@
+import Humidity from './WeatherIcons/Humidity'
+import Rain from './WeatherIcons/Rain'
+import Sunrise from './WeatherIcons/Sunrise'
+import Sunset from './WeatherIcons/Sunset'
+import Visibility from './WeatherIcons/Visibility'
+import Wind from './WeatherIcons/Wind'
+
 type IconProps = {
   type: string
-  alt?: string
-  id?: string
   color?: string
+  condition?: 'humidity' | 'rain' | 'sunrise' | 'sunset' | 'wind' | 'visibility'
 }
 
-const Icon = ({ type, alt, id, color = 'white' }: IconProps) => {
+const weatherConditions = {
+  humidity: Humidity,
+  rain: Rain,
+  sunrise: Sunrise,
+  sunset: Sunset,
+  visibility: Visibility,
+  wind: Wind,
+}
+
+const Icon = ({ type, condition, color = 'white' }: IconProps) => {
   const iconToBeDisplayed = () => {
-    if (type === 'weather') {
-      return (
-        <img
-          alt={`weather-icon-${alt}`}
-          src={`http://openweathermap.org/img/wn/${id}@2x.png`}
-        />
-      )
+    if (type === 'weather' && condition) {
+      const Icon = weatherConditions[condition]
+      return <Icon />
     } else {
       let pathD = ''
       switch (type) {
