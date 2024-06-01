@@ -1,5 +1,6 @@
 import { forecastType } from '../types'
 import Icon from './Icon'
+import Image from './Image'
 
 type ForecastProps = {
   setForecast: React.Dispatch<React.SetStateAction<forecastType | null>>
@@ -15,11 +16,7 @@ const Forecast: React.FC<ForecastProps> = ({
   const today = forecast.list[0]
   return (
     <>
-      <Icon
-        type="weather"
-        alt={today.weather[0].description}
-        id={today.weather[0].icon}
-      />
+      <Image reference={today.weather[0]} />
       <h1 className="text-5xl font-extrabold pl-4 mb-2">
         {Weather(Math.round(today.main.temp))}
       </h1>
@@ -40,16 +37,14 @@ const Forecast: React.FC<ForecastProps> = ({
         {forecast?.list.map((item, index) => (
           <div
             key={`${item.dt}_${index}`}
-            className="flex flex-col flex-shrink-0 sm:flex-shrink w-[11vw] sm:w-[11vh]"
+            className="flex flex-col items-center mx-0.5 sm:mx-1 flex-shrink-0 sm:flex-shrink w-[11vw] sm:w-[11vh]"
           >
             <p className="text-sm pl-1">
               {Weather(Math.round(item.main.temp))}
             </p>
-            <Icon
-              type="weather"
-              alt={item.weather[0].description}
-              id={item.weather[0].icon}
-            />
+            <div className="w-10 md:w-16">
+              <Image reference={item.weather[0]} />
+            </div>
             <p className="text-xs p-1">
               {index === 0
                 ? 'Now'
